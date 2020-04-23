@@ -1,0 +1,43 @@
+<%- include("header") -%>
+
+  <!-- Date -->
+  <div class="box" id="heading">
+    <h1><%=listTitle%></h1>
+  </div>
+
+  <!-- To do list -->
+  <div class="box">
+
+    <!-- Initializing the defaulf lists in the array  -->
+    <% newItems.forEach(function(arrayElement){ %>
+    <div class="item">
+      <input type="checkbox">
+      <p><%= arrayElement %></p>
+    </div>
+    <% }); %>
+
+    <form class="item" action="/" method="post">
+      <input type="text" name="inpNewItem" placeholder="New Items" autocomplete="off">
+      <button type="submit" name="list" value=<%=listTitle%>>+</button>
+    </form>
+  </div>
+
+  <!-- Scriplet tags cannot be added on lines with HTML code -->
+  <!-- The # in front of < % comments that line
+    <%# if(listTitle === "Thursday"){ %>
+      <h1 style="color: purple"><%= listTitle %> ToDo List</h1>
+    <%# } else { %>
+      <h1 style="color: blue"><%= listTitle %> ToDo List</h1>
+    <%# } %>
+
+    <% /* var color = "black";
+    if(listTitle === "Thursday"){
+       color = "purple";
+    } else {
+        color = "red";
+     } */ %>
+
+    <h1 style="color: <%#= color %>"><%#= listTitle %> ToDo List</h1>
+    -->
+
+<%- include("footer") -%>
