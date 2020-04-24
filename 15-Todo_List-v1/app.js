@@ -1,13 +1,14 @@
 //jshint esverion:6
 const express = require("express");
 const bodyParser = require("body-parser");
+const date = require(__dirname + "/date.js");
 
 const app = express();
 
 // let are similar to 'var' but more secure to use, since let created inside loops/condition statements are treated as local
 // variables, while 'var' are treated as global
-let items = ["Task 1", "Task 2", "Task 3"];
-let workItems = [];
+const items = ["Task 1", "Task 2", "Task 3"];
+const workItems = [];
 
 // Setting up EJS
 app.set("view engine", "ejs");
@@ -17,9 +18,16 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 app.get("/", function(req, res) {
-  let date = new Date();
-  let today = date.getDay();
-  let day = "";
+
+  const day = date.getDay();
+  
+  // EJS asks that the .ejs files are inside a folder called 'views'. It will look for the files inside it,
+  // so it's not necesary to give the path of the file as "views/file.ejs", just the name of the file will do it if it's
+  // inside the views folder.
+  res.render("list", {
+    listTitle: day,
+    newItems: items
+  });
 
   /*
   if(date === 6 || date === 0){
@@ -55,27 +63,11 @@ app.get("/", function(req, res) {
       console.log("Error: Var 'day' = " + day);
   }
   */
-
-  let options = {
-    weekday: "long",
-    day: "numeric",
-    month: "long"
-  };
-
-  day = date.toLocaleDateString("en-us", options);
-
-  // EJS asks that the .ejs files are inside a folder called 'views'. It will look for the files inside it,
-  // so it's not necesary to give the path of the file as "views/file.ejs", just the name of the file will do it if it's
-  // inside the views folder.
-  res.render("list", {
-    listTitle: day,
-    newItems: items
-  });
 });
 
 app.post("/", function(req, res){
 
-  let item = req.body.inpNewItem;
+  const item = req.body.inpNewItem;
 
   if(req.body.list === "Work"){
     workItems.push(item);
