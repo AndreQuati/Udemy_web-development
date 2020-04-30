@@ -18,10 +18,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 app.get("/", function(req, res){
-  
-  console.log(blogPosts);
-  
-  res.render("home", {pHomeStartingContent: homeStartingContent});
+  blogPosts.push("s");
+
+  res.render("home", {pHomeStartingContent: homeStartingContent, blogPosts: blogPosts});
 });
 
 app.get("/about", function(req, res){
@@ -37,14 +36,28 @@ app.get("/compose", function(req, res){
 });
 
 app.post("/compose", function(req, res){
-  blogPosts.push({
+  const post = {
     title: req.body.postTitle,
     body: req.body.postBody
-  });
+  };
+
+  blogPosts.push(post);
 
   res.redirect("/");
 });
 
+// The name of the parameter I put after ":" is the attribute to which the value will be set. E.g.: If the routing + parameter
+// is "user/:userid", req.params will return {userid: "2090"}
+app.get("/posts/:postName", function(req, res){
+  //Regardless of the name of the parameter or how many there are, they are accessed by this "req.params"
+  const postName = req.params.postName;
+
+  blogPosts.forEach(function(post){
+    if(post.title == postName){
+      res.render("post", {postTitle: post.title, postBody: post.body});
+    }
+  });
+});
 
 app.listen(3000, function() {
   console.log("Server started on port 3000");
