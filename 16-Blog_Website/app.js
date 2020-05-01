@@ -28,8 +28,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 app.get("/", function(req, res){
-  blogPosts.push("s");
-
   res.render("home", {pHomeStartingContent: homeStartingContent, blogPosts: blogPosts});
 });
 
@@ -68,11 +66,8 @@ app.get("/posts/:postName", function(req, res){
 
     if(postTitle === requestedTitle){
       res.render("post", {postTitle: post.title, postBody: post.body});
-    } else {
-      console.log("Not a match");
-    }
+    } 
   });
-
 });
 
 app.listen(3000, function() {

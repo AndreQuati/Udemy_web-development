@@ -3,9 +3,20 @@
 <h1>Home</h1>
 <p><%= pHomeStartingContent %></p>
 
-<% blogPosts.forEach( post => { %>
+<% blogPosts.forEach( post => { 
+    
+    const maxLenght = 100;
+    let postBody = post.body;
+
+    if(postBody.length > maxLenght){
+        postBody = postBody.substring(0, maxLenght-1) + " ...";
+    } %>
+
     <h2><%= post.title %></h2>
-    <p><%= post.body %></p>
+    <p>
+        <%= postBody %>
+        <a href="posts/<%=post.title%>">Read More</a>
+    </p>
 <% }); %>
 
 <%- include("partials/footer"); -%>
